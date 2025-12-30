@@ -1,0 +1,20 @@
+import { usePrincipalState } from "../store/usePrincipalState";
+import { useEffect } from "react";
+
+function ProtectedRouter({ children }) {
+    const { isLoggedIn, principal, loading, login, logout } =
+        usePrincipalState();
+
+    useEffect(() => {
+        if (!loading) {
+            if (!isLoggedIn) {
+                alert("로그인이 필요합니다.");
+                window.location.href = "/auth/signin";
+            }
+        }
+    }, [loading]);
+
+    return children;
+}
+
+export default ProtectedRouter;

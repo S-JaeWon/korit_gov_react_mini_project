@@ -3,9 +3,43 @@ import * as s from "./styles";
 import { TbArrowBackUp } from "react-icons/tb";
 import { GoSearch } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+    getBoardByKeywordRequest,
+    getBoardRequest,
+} from "../../../apis/board/boardApis";
 
 function BoardListPage() {
+    const [boardList, setBoardList] = useState([]);
+    const [searchInputValue, setSearchInputValue] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getBoardRequest().then((response) => {
+            if (response.data.status === "success") {
+                setBoardList(response.data.data);
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+            }
+        });
+    }, []);
+
+    const searchOnChangeHandler = (e) => {
+        setSearchInputValue(e.target.value);
+    };
+
+    const searchOnKeyDownHander = (e) => {
+        if (e.key === "Enter") {
+            getBoardByKeywordRequest(searchInputValue).then((response) => {
+                if (response.data.status === "success") {
+                    setBoardList(response.data.data);
+                } else if (response.data.status === "failed") {
+                    alert(response.data.message);
+                }
+            });
+        }
+    };
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
@@ -19,111 +53,39 @@ function BoardListPage() {
                         <input
                             type="text"
                             placeholder="검색할 게시물 제목을 적어주세요."
+                            onChange={searchOnChangeHandler}
+                            onKeyDown={searchOnKeyDownHander}
                         />
                     </div>
                 </div>
                 <div css={s.listContainer}>
                     <ul>
-                        <li onClick={() => navigate("/board/1")}>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    React 18에서는 Concurrent Rendering,
-                                    Automatic Batching, 그리고 새로운 Suspense
-                                    기능들이 추가되었습니다. 이번 업데이트는
-                                    특히 성능 개선에 초점을 맞추고 있으며...
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
+                        {boardList.map((board) => (
+                            <li
+                                key={board.boardId}
+                                onClick={() =>
+                                    navigate(`/board/${board.boardId}`)
+                                }>
                                 <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
+                                    <h4>{board.title}</h4>
+                                    <p>{board.content}</p>
                                 </div>
-                                <div>
-                                    <p>2025.12.29</p>
+                                <div css={s.boardBottomBox}>
+                                    <div>
+                                        <div css={s.profileImgBox}>
+                                            <img
+                                                src={board.profileImg}
+                                                alt="profileImg"
+                                            />
+                                        </div>
+                                        <p>{board.username}</p>
+                                    </div>
+                                    <div>
+                                        <p>{board.createDt}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    React 18에서는 Concurrent Rendering,
-                                    Automatic Batching, 그리고 새로운 Suspense
-                                    기능들이 추가되었습니다. 이번 업데이트는
-                                    특히 성능 개선에 초점을 맞추고 있으며...
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    React 18에서는 Concurrent Rendering,
-                                    Automatic Batching, 그리고 새로운 Suspense
-                                    기능들이 추가되었습니다. 이번 업데이트는
-                                    특히 성능 개선에 초점을 맞추고 있으며...
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    React 18에서는 Concurrent Rendering,
-                                    Automatic Batching, 그리고 새로운 Suspense
-                                    기능들이 추가되었습니다. 이번 업데이트는
-                                    특히 성능 개선에 초점을 맞추고 있으며...
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <h4>React 18의 새로운 기능들</h4>
-                                <p>
-                                    React 18에서는 Concurrent Rendering,
-                                    Automatic Batching, 그리고 새로운 Suspense
-                                    기능들이 추가되었습니다. 이번 업데이트는
-                                    특히 성능 개선에 초점을 맞추고 있으며...
-                                </p>
-                            </div>
-                            <div css={s.boardBottomBox}>
-                                <div>
-                                    <div>김</div>
-                                    <p>김개발</p>
-                                </div>
-                                <div>
-                                    <p>2025.12.29</p>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 <div></div>

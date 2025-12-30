@@ -1,0 +1,160 @@
+import { css } from "@emotion/react";
+
+export const container = css`
+    width: 100%;
+    padding-bottom: 50px;
+    background: #eef2ff;
+    background: linear-gradient(
+        90deg,
+        rgba(238, 242, 255, 1) 0%,
+        rgba(250, 245, 255, 1) 50%,
+        rgba(253, 242, 248, 1) 100%
+    );
+    display: flex;
+    justify-content: center;
+    align-content: start;
+`;
+
+export const mainContainer = css`
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 24px;
+    padding: 16px;
+    box-sizing: border-box;
+
+    & > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        border-radius: 8px;
+        padding: 5px 12px;
+        background-color: transparent;
+        color: oklch(0.446 0.03 256.802);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: black;
+            background-color: #f2f2f2;
+        }
+    }
+`;
+
+export const profileBox = css`
+    width: 100%;
+    background-color: white;
+    padding: 24px;
+    box-sizing: border-box;
+    border-radius: 14px;
+`;
+
+export const profileTopBox = css`
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    box-sizing: border-box;
+
+    & > div:nth-of-type(1) {
+        display: flex;
+        align-content: space-evenly;
+        align-items: center;
+        gap: 20px;
+    }
+`;
+
+export const profileImg = css`
+    width: 90px;
+    height: 90px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; // 비율 유지
+        cursor: pointer;
+    }
+
+    & > input {
+        display: none;
+    }
+`;
+
+export const profileBottomBox = css`
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const profileSettingBox = css`
+    width: 100%;
+    background-color: white;
+    padding: 24px;
+    box-sizing: border-box;
+    border-radius: 14px;
+`;
+
+export const settingButtonBox = css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+
+    & > button {
+        border: 1px solid #dbdbdb;
+        background-color: transparent;
+        padding: 16px 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        text-align: start;
+        cursor: pointer;
+    }
+`;
+
+export const profileBoardBox = css`
+    width: 100%;
+    background-color: white;
+    padding: 24px;
+    box-sizing: border-box;
+    border-radius: 14px;
+`;
+
+export const boardBox = css`
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const blurBox = css`
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.3);
+
+    & > h4 {
+        font-size: 60px;
+        color: #0a0a0a;
+    }
+`;

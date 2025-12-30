@@ -1,17 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { LuSparkles } from "react-icons/lu";
 import * as s from "./styles";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { usePrincipalState } from "../../../store/usePrincipalState";
-import { addBoardRequest } from "../../../apis/board/boardApis";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
+import { getBoardByBoardIdRequest } from "../../../apis/board/boardApis";
 
-function BoardWritePage() {
+function BoardEditPage() {
+    const navigate = useNavigate();
+    const [boardData, setBoardData] = useState({});
+    const { boardId } = useParams();
     const [titleInputValue, setTitleInputValue] = useState("");
     const [contentInputValue, setContentInputValue] = useState("");
-    const navigate = useNavigate();
-    const { isLoggedIn, principal, loading, login, logout } =
-        usePrincipalState();
 
     const titleInputonChangeHandler = (e) => {
         setTitleInputValue(e.target.value);
@@ -21,50 +20,33 @@ function BoardWritePage() {
         setContentInputValue(e.target.value);
     };
 
-    const submitOnClickHandler = () => {
-        if (
-            contentInputValue.trim().length === 0 ||
-            titleInputValue.trim().length === 0
-        ) {
-            alert("모든 항목을 입력 해주세요.");
-            return;
-        }
-
-        addBoardRequest({
-            title: titleInputValue,
-            content: contentInputValue,
-            userId: principal.userId,
-        })
-            .then((response) => {
-                if (response.data.status === "success") {
-                    alert("게시물 추가 완료");
-                    navigate("/board/list");
-                } else if (response.data.status === "failed") {
-                    alert(response.data.message);
-                    return;
-                }
-            })
-            .catch((error) => {
-                alert("오류 발생");
-                return;
-            });
-    };
-
     const cancelOnClickHandler = () => {
         setTitleInputValue("");
         setContentInputValue("");
         navigate("/board/list");
     };
 
+    useEffect(() => {
+        getBoardByBoardIdRequest(boardId).then((response) => {
+            if (response.data.status === "success") {
+                setBoardData(response.data.data);
+                setTitleInputValue(response.data.data.title);
+                setContentInputValue(response.data.data.content);
+            } else if (response.data.status === "failed") {
+                alert(response.data.message);
+            }
+        });
+    }, []);
+
     return (
         <div css={s.container}>
             <div css={s.mainContainer}>
                 <div>
                     <div>
-                        <LuSparkles />
+                        <MdOutlineTipsAndUpdates />
                     </div>
-                    <h1>새로운 이야기를 시작하세요</h1>
-                    <p>당신의 지식과 경험을 커뮤니티와 공유해보세요</p>
+                    <h1>게시글을 수정하세요</h1>
+                    <p>내용을 다듬고 최신 정보로 업데이트해보세요</p>
                 </div>
                 <div css={s.bottomContainer}>
                     <div css={s.innerBox}>
@@ -74,6 +56,7 @@ function BoardWritePage() {
                                 id="title"
                                 type="text"
                                 placeholder="제목을 입력하세요."
+                                value={titleInputValue}
                                 onChange={titleInputonChangeHandler}
                             />
                         </div>
@@ -83,6 +66,7 @@ function BoardWritePage() {
                                 name=""
                                 id="content"
                                 placeholder="내용을 입력하세요."
+                                value={contentInputValue}
                                 onChange={contentInputOnChangeHandler}
                             />
                         </div>
@@ -92,9 +76,7 @@ function BoardWritePage() {
                         </div>
                         <div>
                             <button onClick={cancelOnClickHandler}>취소</button>
-                            <button onClick={submitOnClickHandler}>
-                                게시하기
-                            </button>
+                            <button>수정하기</button>
                         </div>
                     </div>
                 </div>
@@ -102,4 +84,4 @@ function BoardWritePage() {
         </div>
     );
 }
-export default BoardWritePage;
+export default BoardEditPage;

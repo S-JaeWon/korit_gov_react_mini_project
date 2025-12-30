@@ -3,11 +3,9 @@ import * as s from "./styles";
 import { HiMiniChatBubbleBottomCenter, HiMiniUserGroup } from "react-icons/hi2";
 import { AiTwotoneThunderbolt } from "react-icons/ai";
 
-function MainPage({ showSideBar, setShowSideBar }) {
+function MainPage() {
     return (
-        <div
-            css={s.container(showSideBar)}
-            onClick={() => setShowSideBar((prev) => (prev ? !prev : prev))}>
+        <div css={s.container}>
             <div css={s.mainContainer}>
                 <div css={s.topBox}>
                     <h1>

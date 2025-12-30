@@ -81,14 +81,20 @@ export const boardBottomBox = css`
         align-items: center;
         gap: 10px;
 
-        & > div {
+        & > div > img {
             width: 32px;
             height: 32px;
             border-radius: 50px;
-            background-color: aquamarine;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+
+            & > img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
 
         & > p {

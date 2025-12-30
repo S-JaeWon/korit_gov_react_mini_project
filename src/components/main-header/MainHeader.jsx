@@ -7,8 +7,8 @@ import { usePrincipalState } from "../../store/usePrincipalState";
 
 function MainHeader({ showSideBar, setShowSideBar }) {
     const navigate = useNavigate();
-    const { isLoggedIn, principal, login, logout } = usePrincipalState();
-    console.log(principal);
+    const { isLoggedIn, principal, loading, login, logout } =
+        usePrincipalState();
 
     return (
         <div css={s.container}>
@@ -19,8 +19,16 @@ function MainHeader({ showSideBar, setShowSideBar }) {
                 <div onClick={() => navigate("/")}>TechBoard</div>
             </div>
             <div css={s.rightbox}>
-                {isLoggedIn ? (
-                    <p>{principal.username}</p>
+                {loading ? (
+                    <></>
+                ) : isLoggedIn ? (
+                    <div
+                        css={s.profileBox}
+                        onClick={() =>
+                            navigate(`/profile/${principal.username}`)
+                        }>
+                        <img src={principal?.profileImg} alt="profileImg" />
+                    </div>
                 ) : (
                     <>
                         <button onClick={() => navigate("/auth/signin")}>

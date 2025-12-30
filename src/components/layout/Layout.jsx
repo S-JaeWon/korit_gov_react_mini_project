@@ -1,15 +1,22 @@
 /** @jsxImportSource @emotion/react */
-import MainHeader from "../main-header/MainHeader";
 import * as s from "./styles";
+import { useState } from "react";
+import MainHeader from "../main-header/MainHeader";
 
-function Layout({ children, showSideBar, setShowSideBar }) {
+function Layout({ children }) {
+    const [showSideBar, setShowSideBar] = useState(false);
+
     return (
         <div css={s.container}>
             <MainHeader
                 showSideBar={showSideBar}
                 setShowSideBar={setShowSideBar}
             />
-            {children}
+            <div
+                css={s.blurBox(showSideBar)}
+                onClick={() => setShowSideBar((prev) => (prev ? !prev : prev))}>
+                {children}
+            </div>
         </div>
     );
 }
