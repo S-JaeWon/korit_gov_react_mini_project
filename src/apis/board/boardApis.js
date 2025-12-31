@@ -36,6 +36,24 @@ export const getBoardRequest = async () => {
     }
 };
 
+export const getBoardListByUserIdRequest = async (userId) => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    });
+
+    try {
+        const response = await instance.get(`/board/user/${userId}`);
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
 export const getBoardByBoardIdRequest = async (boardId) => {
     instance.interceptors.request.use((config) => {
         const accessToken = localStorage.getItem("AccessToken");
@@ -66,6 +84,60 @@ export const getBoardByKeywordRequest = async (keyword) => {
 
     try {
         const response = await instance.get(`/board/search/${keyword}`);
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const modifyBoardByBoardIdRequest = async (data) => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    });
+
+    try {
+        const response = await instance.post("/board/modify", data);
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const removeBoardByBoardIdRequest = async (data) => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    });
+
+    try {
+        const response = await instance.post("/board/delete", data);
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const getBoardByUserIdRequest = async (userId) => {
+    instance.interceptors.request.use((config) => {
+        const accessToken = localStorage.getItem("AccessToken");
+
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    });
+
+    try {
+        const response = await instance.get(`/board/${userId}`);
         return response;
     } catch (error) {
         return error.response;

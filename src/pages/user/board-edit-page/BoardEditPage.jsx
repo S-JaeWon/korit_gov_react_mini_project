@@ -3,11 +3,16 @@ import * as s from "./styles";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
-import { getBoardByBoardIdRequest } from "../../../apis/board/boardApis";
+import {
+    getBoardByBoardIdRequest,
+    modifyBoardByBoardIdRequest,
+    removeBoardByBoardIdRequest,
+} from "../../../apis/board/boardApis";
+import { usePrincipalState } from "../../../store/usePrincipalState";
 
 function BoardEditPage() {
     const navigate = useNavigate();
-    const [boardData, setBoardData] = useState({});
+    const { principal } = usePrincipalState();
     const { boardId } = useParams();
     const [titleInputValue, setTitleInputValue] = useState("");
     const [contentInputValue, setContentInputValue] = useState("");
@@ -23,13 +28,66 @@ function BoardEditPage() {
     const cancelOnClickHandler = () => {
         setTitleInputValue("");
         setContentInputValue("");
-        navigate("/board/list");
+        navigate(`/profile/${principal.username}`);
+    };
+
+    const editOnClickHandler = () => {
+        if (
+            contentInputValue.trim().length === 0 ||
+            titleInputValue.trim().length === 0
+        ) {
+            alert("모든 항목을 입력 해주세요.");
+            return;
+        }
+
+        modifyBoardByBoardIdRequest({
+            title: titleInputValue,
+            content: contentInputValue,
+            userId: principal.userId,
+            boardId: boardId,
+        })
+            .then((response) => {
+                if (response.data.status === "success") {
+                    alert("게시물 수정 완료");
+                    navigate(`/board/${boardId}`);
+                } else if (response.data.status === "failed") {
+                    alert(response.data.message);
+                    return;
+                }
+            })
+            .catch((error) => {
+                alert("오류 발생");
+                return;
+            });
+    };
+
+    const removeOnClickHandler = () => {
+        if (!confirm("게시물을 삭제 하시겠습니까?")) {
+            return;
+        }
+
+        removeBoardByBoardIdRequest({
+            userId: principal.userId,
+            boardId: boardId,
+        })
+            .then((response) => {
+                if (response.data.status === "success") {
+                    alert("게시물 삭제 완료");
+                    navigate(`/profile/${principal.username}`);
+                } else if (response.data.status === "failed") {
+                    alert(response.data.message);
+                    return;
+                }
+            })
+            .catch((error) => {
+                alert("오류 발생");
+                return;
+            });
     };
 
     useEffect(() => {
         getBoardByBoardIdRequest(boardId).then((response) => {
             if (response.data.status === "success") {
-                setBoardData(response.data.data);
                 setTitleInputValue(response.data.data.title);
                 setContentInputValue(response.data.data.content);
             } else if (response.data.status === "failed") {
@@ -75,8 +133,17 @@ function BoardEditPage() {
                             <span>최소 10자 이상 작성해주세요</span>
                         </div>
                         <div>
-                            <button onClick={cancelOnClickHandler}>취소</button>
-                            <button>수정하기</button>
+                            <button onClick={removeOnClickHandler}>
+                                삭제하기
+                            </button>
+                            <div>
+                                <button onClick={cancelOnClickHandler}>
+                                    취소
+                                </button>
+                                <button onClick={editOnClickHandler}>
+                                    수정하기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

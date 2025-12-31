@@ -25,6 +25,12 @@ function SigninPage() {
         });
     };
 
+    const onKeyDownHandler = (e) => {
+        if (e.key === "Enter") {
+            signinOnClickHandler();
+        }
+    };
+
     const signinOnClickHandler = () => {
         if (
             signinInputValue.email.trim().length === 0 ||
@@ -78,6 +84,7 @@ function SigninPage() {
                                     value={signinInputValue.email}
                                     placeholder="이메일을 입력해주세요"
                                     onChange={signinInputOnChangeHandler}
+                                    onKeyDown={onKeyDownHandler}
                                 />
                             </div>
                             <div>
@@ -89,6 +96,7 @@ function SigninPage() {
                                     value={signinInputValue.password}
                                     placeholder="비밀번호를 입력해주세요"
                                     onChange={signinInputOnChangeHandler}
+                                    onKeyDown={onKeyDownHandler}
                                 />
                             </div>
                             <button onClick={signinOnClickHandler}>
@@ -99,11 +107,19 @@ function SigninPage() {
                             <span>또는</span>
                         </div>
                         <div css={s.buttonBox}>
-                            <button onClick={() => navigate("/auth/oauth2")}>
+                            <button
+                                onClick={() =>
+                                    (window.location.href =
+                                        "http://localhost:8080/oauth2/authorization/google")
+                                }>
                                 <FcGoogle style={{ fontSize: 25 }} />
                                 구글로 로그인
                             </button>
-                            <button>
+                            <button
+                                onClick={() =>
+                                    (window.location.href =
+                                        "http://localhost:8080/oauth2/authorization/naver")
+                                }>
                                 <SiNaver
                                     style={{ fontSize: 18, color: "#03C75A" }}
                                 />
