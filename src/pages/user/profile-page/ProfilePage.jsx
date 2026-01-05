@@ -14,8 +14,10 @@ import {
 } from "../../../apis/account/accountApis";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getBoardListByUserIdRequest } from "../../../apis/board/boardApis";
+import { GridLoader } from "react-spinners";
 
 function ProfilePage() {
+    const [isSending, setIsSending] = useState(false);
     const [progress, setProgress] = useState(0);
     const [isUploaindg, setIsUploading] = useState(false);
     const navigate = useNavigate();
@@ -114,12 +116,17 @@ function ProfilePage() {
             return;
         }
 
+        setIsSending(true);
         emailSendRequest()
             .then((response) => {
                 if (response.data.status === "success") {
+                    setIsSending(false);
+
                     alert(response.data.message);
                     return;
                 } else if (response.data.status === "failed") {
+                    setIsSending(false);
+
                     alert(response.data.message);
                     return;
                 }
@@ -276,6 +283,13 @@ function ProfilePage() {
             {isUploaindg ? (
                 <div css={s.blurBox}>
                     <h4>{progress}%</h4>
+                </div>
+            ) : (
+                <></>
+            )}
+            {isSending ? (
+                <div css={s.spinnerBox}>
+                    <GridLoader color="#4f39f6" size={50} />
                 </div>
             ) : (
                 <></>
