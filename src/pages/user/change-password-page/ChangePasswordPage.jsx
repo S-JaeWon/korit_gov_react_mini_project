@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as s from "./styles";
 import { useState } from "react";
 import { TbArrowBackUp } from "react-icons/tb";
-import { changePasswordRequest } from "../../../apis/auth/account/accountApis";
+import { changePasswordRequest } from "../../../apis/account/accountApis";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePrincipalState } from "../../../store/usePrincipalState";
 

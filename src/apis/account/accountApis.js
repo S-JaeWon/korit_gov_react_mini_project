@@ -1,4 +1,4 @@
-import { instance } from "../../utils/instance";
+import { instance } from "../utils/instance";
 
 export const changeProfileImg = async (data) => {
     instance.interceptors.request.use((config) => {

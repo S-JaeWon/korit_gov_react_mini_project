@@ -2,13 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import AuthRouter from "./AuthRouter";
 import MainPage from "../pages/user/main-page/MainPage";
 import Layout from "../components/layout/Layout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BoardRouter from "./BoardRouter";
 import { useQuery } from "@tanstack/react-query";
 import { getPrincipal } from "../apis/auth/authApis";
 import { usePrincipalState } from "../store/usePrincipalState";
 import AccountRouter from "./AccountRouter";
 import ProtectedRouter from "./ProtectedRouter";
+import AdminRouter from "./AdminRouter";
 
 function MainRouter() {
     const accessToken = localStorage.getItem("AccessToken");
@@ -65,6 +66,7 @@ function MainRouter() {
                     }
                 />
                 <Route path="/auth/*" element={<AuthRouter />} />
+                <Route path="/admin/*" element={<AdminRouter />} />
             </Routes>
         </>
     );

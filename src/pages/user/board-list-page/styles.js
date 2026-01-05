@@ -92,6 +92,7 @@ export const listContainer = css`
             box-sizing: border-box;
             border-radius: 14px;
             box-shadow: 0px 10px 15px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.15s ease;
             cursor: pointer;
 
             &:hover {
